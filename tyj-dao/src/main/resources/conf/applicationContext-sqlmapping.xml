@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSourceDemo" />
+        <property name="configLocation" value="classpath:conf/sqlMapConfig.xml" />
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:demo/**/*Mapper.xml</value>
+            </list>
+        </property>
+    </bean>
+    <bean name="mapperScannerConfigurerDemo" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+        <property name="basePackage" value="com.tyj.dao.demo" />
+        <property name="annotationClass" value="cn.vansky.framework.core.orm.mybatis.annotation.SqlMapper" />
+        <property name="markerInterface" value="org.mybatis.spring.mapper.MapperFactoryBean" />
+    </bean>
+
+    <bean id="sqlSessionFactoryJhpt" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSourceJhpt" />
+        <property name="configLocation" value="classpath:conf/sqlMapConfig.xml" />
+        <property name="mapperLocations">
+            <list>
+                <value>classpath:jhpt/**/*Mapper.xml</value>
+            </list>
+        </property>
+    </bean>
+    <bean name="mapperScannerConfigurerJhpt" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryJhpt" />
+        <property name="basePackage" value="com.tyj.dao.jhpt" />
+        <property name="annotationClass" value="cn.vansky.framework.core.orm.mybatis.annotation.SqlMapper" />
+        <property name="markerInterface" value="org.mybatis.spring.mapper.MapperFactoryBean" />
+    </bean>
+</beans>
+

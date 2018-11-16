@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.general.dao.UserTeamMapper">
+    <delete id="delMember">
+        delete from `tb_user_team`
+        <where>
+            <if test="userId != null">
+                AND `user_id` = #{userId}
+            </if>
+            <if test="members != null">
+                AND `team_id` IN
+                <foreach item="item" collection="members" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </delete>
+    <select id="findTeamIdsByUserId" resultType="java.lang.Integer">
+        select `team_id` from `tb_user_team` where `user_id` = #{userId}
+    </select>
+</mapper>

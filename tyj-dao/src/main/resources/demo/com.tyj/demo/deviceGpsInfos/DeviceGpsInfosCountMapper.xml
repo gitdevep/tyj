@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.deviceGpsInfos.dao.DeviceGpsInfosCountMapper">
+    <delete id="delByDeviceIdAndTime">
+        delete from `device_gps_infos_count`
+        <where>
+            <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+                AND `count_date` &gt;= #{startDate} and `count_date` &lt; #{endDate}
+            </if>
+            <if test="deviceId != null">
+                AND `device_id` = #{deviceId}
+            </if>
+        </where>
+    </delete>
+    <select id="findParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `device_gps_infos_count`
+        <where>
+            <if test="startDate != null and startDate != ''">
+                AND `count_date` &gt;= #{startDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                AND `count_date` &lt;= #{endDate}
+            </if>
+            <if test="deviceId != null">
+                AND `device_id` = #{deviceId}
+            </if>
+            <if test="ascCountDate != null">
+                order by `count_date`
+            </if>
+        </where>
+    </select>
+    <resultMap id="ExtBaseResultMap" type="com.tyj.dao.demo.deviceGpsInfos.bo.DeviceGpsInfosCount">
+        <result column="device_id" property="deviceId" jdbcType="INTEGER" />
+        <result column="drive_time" property="driveTime" jdbcType="DOUBLE" />
+        <result column="car_front_collide" property="carFrontCollide" jdbcType="INTEGER" />
+        <result column="limit_speed_alarm" property="limitSpeedAlarm" jdbcType="INTEGER" />
+        <result column="left_lane_deviate" property="leftLaneDeviate" jdbcType="INTEGER" />
+        <result column="city_front_collide" property="cityFrontCollide" jdbcType="INTEGER" />
+        <result column="car_distance_monitor" property="carDistanceMonitor" jdbcType="INTEGER" />
+        <result column="right_lane_deviate" property="rightLaneDeviate" jdbcType="INTEGER" />
+        <result column="car_start" property="carStart" jdbcType="INTEGER" />
+        <result column="car_end" property="carEnd" jdbcType="INTEGER" />
+        <result column="location_message" property="locationMessage" jdbcType="INTEGER" />
+        <result column="speed_up" property="speedUp" jdbcType="INTEGER" />
+        <result column="speed_down" property="speedDown" jdbcType="INTEGER" />
+        <result column="vd_no_start" property="vdNoStart" jdbcType="INTEGER" />
+        <result column="device_active" property="deviceActive" jdbcType="INTEGER" />
+        <result column="person_front_collide" property="personFrontCollide" jdbcType="INTEGER" />
+        <result column="collide_follow" property="collideFollow" jdbcType="INTEGER" />
+        <result column="device_set_success" property="deviceSetSuccess" jdbcType="INTEGER" />
+        <result column="device_set_fail" property="deviceSetFail" jdbcType="INTEGER" />
+        <result column="scores" property="scores" jdbcType="DOUBLE" />
+        <result column="sum" property="sum" jdbcType="DOUBLE" />
+        <result column="car_collide_follow" property="carCollideFollow" jdbcType="INTEGER" />
+        <result column="person_collide_follow" property="personCollideFollow" jdbcType="INTEGER" />
+        <result column="one_car_front_collide" property="oneCarFrontCollide" jdbcType="INTEGER" />
+        <result column="two_car_front_collide" property="twoCarFrontCollide" jdbcType="INTEGER" />
+    </resultMap>
+    <select id="findTotalAlarm" resultMap="ExtBaseResultMap">
+        select
+            `device_id`,
+            sum(`drive_time`) `drive_time`,
+            sum(`car_front_collide`) `car_front_collide`,
+            sum(`limit_speed_alarm`) `limit_speed_alarm`,
+            sum(`left_lane_deviate`) `left_lane_deviate`,
+            sum(`city_front_collide`) `city_front_collide`,
+            sum(`car_distance_monitor`) `car_distance_monitor`,
+            sum(`right_lane_deviate`) `right_lane_deviate`,
+            sum(`car_start`) `car_start`,
+            sum(`car_end`) `car_end`,
+            sum(`location_message`) `location_message`,
+            sum(`speed_up`) `speed_up`,
+            sum(`speed_down`) `speed_down`,
+            sum(`vd_no_start`) `vd_no_start`,
+            sum(`device_active`) `device_active`,
+            sum(`person_front_collide`) `person_front_collide`,
+            sum(`collide_follow`) `collide_follow`,
+            sum(`device_set_success`) `device_set_success`,
+            sum(`device_set_fail`) `device_set_fail`,
+            sum(`car_collide_follow`) `car_collide_follow`,
+            sum(`person_collide_follow`) `person_collide_follow`,
+            sum(`one_car_front_collide`) `one_car_front_collide`,
+            sum(`two_car_front_collide`) `two_car_front_collide`,
+            sum(`scores`) `scores`,
+            sum(`sum`) `sum`
+        from `device_gps_infos_count`
+        where `count_date` &gt;= #{startDate} AND `count_date` &lt;= #{endDate}
+            AND device_id IN
+            <foreach collection="ds" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+            group by device_id
+    </select>
+</mapper>

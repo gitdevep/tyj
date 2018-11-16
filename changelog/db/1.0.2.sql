@@ -1,0 +1,1 @@
+ALTER TABLE `device_gps_infos` ADD INDEX idx_device_id_log_lat(device_id, longitude, latitude);

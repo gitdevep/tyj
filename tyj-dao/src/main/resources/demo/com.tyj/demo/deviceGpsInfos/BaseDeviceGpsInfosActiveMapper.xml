@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (C) 2016 CK, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.deviceGpsInfos.dao.DeviceGpsInfosActiveMapper">
+  <resultMap id="BaseResultMap" type="com.tyj.dao.demo.deviceGpsInfos.bo.DeviceGpsInfosActive">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="event_time" property="eventTime" jdbcType="TIMESTAMP" />
+    <result column="device_id" property="deviceId" jdbcType="INTEGER" />
+    <result column="msg_id" property="msgId" jdbcType="INTEGER" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+    <result column="speed" property="speed" jdbcType="INTEGER" />
+    <result column="msg_type" property="msgType" jdbcType="TINYINT" />
+    <result column="flash_state" property="flashState" jdbcType="TINYINT" />
+    <result column="upload_time" property="uploadTime" jdbcType="TIMESTAMP" />
+    <result column="acceleration" property="acceleration" jdbcType="REAL" />
+    <result column="flag" property="flag" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `id`, `event_time`, `device_id`, `msg_id`, `longitude`, `latitude`, `speed`, `msg_type`, `flash_state`, `upload_time`, `acceleration`, 
+    `flag`
+  </sql>
+  <insert id="insert" parameterType="com.tyj.dao.demo.deviceGpsInfos.bo.DeviceGpsInfosActive" useGeneratedKeys="true" keyProperty="hashmap">
+    <![CDATA[
+    insert into `device_gps_infos_active` (`event_time`, `device_id`, `msg_id`, 
+      `longitude`, `latitude`, `speed`, 
+      `msg_type`, `flash_state`, `upload_time`, 
+      `acceleration`, `flag`)
+    values (#{eventTime,jdbcType=TIMESTAMP}, #{deviceId,jdbcType=INTEGER}, #{msgId,jdbcType=INTEGER}, 
+      #{longitude,jdbcType=DOUBLE}, #{latitude,jdbcType=DOUBLE}, #{speed,jdbcType=INTEGER}, 
+      #{msgType,jdbcType=TINYINT}, #{flashState,jdbcType=TINYINT}, #{uploadTime,jdbcType=TIMESTAMP}, 
+      #{acceleration,jdbcType=REAL}, #{flag,jdbcType=TINYINT})
+    ]]>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into `device_gps_infos_active` (`event_time`, `device_id`, `msg_id`, 
+      `longitude`, `latitude`, `speed`, 
+      `msg_type`, `flash_state`, `upload_time`, 
+      `acceleration`, `flag`)
+     values 
+    <foreach collection="list" item="item" index="index" separator=",">
+       (#{item.eventTime,jdbcType=TIMESTAMP}, #{item.deviceId,jdbcType=INTEGER}, #{item.msgId,jdbcType=INTEGER}, 
+        #{item.longitude,jdbcType=DOUBLE}, #{item.latitude,jdbcType=DOUBLE}, #{item.speed,jdbcType=INTEGER}, 
+        #{item.msgType,jdbcType=TINYINT}, #{item.flashState,jdbcType=TINYINT}, #{item.uploadTime,jdbcType=TIMESTAMP}, 
+        #{item.acceleration,jdbcType=REAL}, #{item.flag,jdbcType=TINYINT})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.tyj.dao.demo.deviceGpsInfos.bo.DeviceGpsInfosActive" useGeneratedKeys="true" keyProperty="hashmap">
+    insert into `device_gps_infos_active`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="eventTime != null">
+        `event_time`,
+      </if>
+      <if test="deviceId != null">
+        `device_id`,
+      </if>
+      <if test="msgId != null">
+        `msg_id`,
+      </if>
+      <if test="longitude != null">
+        `longitude`,
+      </if>
+      <if test="latitude != null">
+        `latitude`,
+      </if>
+      <if test="speed != null">
+        `speed`,
+      </if>
+      <if test="msgType != null">
+        `msg_type`,
+      </if>
+      <if test="flashState != null">
+        `flash_state`,
+      </if>
+      <if test="uploadTime != null">
+        `upload_time`,
+      </if>
+      <if test="acceleration != null">
+        `acceleration`,
+      </if>
+      <if test="flag != null">
+        `flag`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="eventTime != null">
+        #{eventTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deviceId != null">
+        #{deviceId,jdbcType=INTEGER},
+      </if>
+      <if test="msgId != null">
+        #{msgId,jdbcType=INTEGER},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="speed != null">
+        #{speed,jdbcType=INTEGER},
+      </if>
+      <if test="msgType != null">
+        #{msgType,jdbcType=TINYINT},
+      </if>
+      <if test="flashState != null">
+        #{flashState,jdbcType=TINYINT},
+      </if>
+      <if test="uploadTime != null">
+        #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceleration != null">
+        #{acceleration,jdbcType=REAL},
+      </if>
+      <if test="flag != null">
+        #{flag,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="hashmap">
+    delete from `device_gps_infos_active`
+    where `id` = #{id,jdbcType=INTEGER}
+      and `event_time` = #{eventTime,jdbcType=TIMESTAMP}
+  </delete>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `device_gps_infos_active`
+  </select>
+  <select id="selectByPrimaryKey" parameterType="hashmap" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `device_gps_infos_active`
+    where `id` = #{id,jdbcType=INTEGER}
+      and `event_time` = #{eventTime,jdbcType=TIMESTAMP}
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from `device_gps_infos_active`
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tyj.dao.demo.deviceGpsInfos.bo.DeviceGpsInfosActive">
+    update `device_gps_infos_active`
+    <set>
+      <if test="deviceId != null">
+        `device_id` = #{deviceId,jdbcType=INTEGER},
+      </if>
+      <if test="msgId != null">
+        `msg_id` = #{msgId,jdbcType=INTEGER},
+      </if>
+      <if test="longitude != null">
+        `longitude` = #{longitude,jdbcType=DOUBLE},
+      </if>
+      <if test="latitude != null">
+        `latitude` = #{latitude,jdbcType=DOUBLE},
+      </if>
+      <if test="speed != null">
+        `speed` = #{speed,jdbcType=INTEGER},
+      </if>
+      <if test="msgType != null">
+        `msg_type` = #{msgType,jdbcType=TINYINT},
+      </if>
+      <if test="flashState != null">
+        `flash_state` = #{flashState,jdbcType=TINYINT},
+      </if>
+      <if test="uploadTime != null">
+        `upload_time` = #{uploadTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceleration != null">
+        `acceleration` = #{acceleration,jdbcType=REAL},
+      </if>
+      <if test="flag != null">
+        `flag` = #{flag,jdbcType=TINYINT},
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+      and `event_time` = #{eventTime,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tyj.dao.demo.deviceGpsInfos.bo.DeviceGpsInfosActive">
+    update `device_gps_infos_active`
+    set `device_id` = #{deviceId,jdbcType=INTEGER},
+      `msg_id` = #{msgId,jdbcType=INTEGER},
+      `longitude` = #{longitude,jdbcType=DOUBLE},
+      `latitude` = #{latitude,jdbcType=DOUBLE},
+      `speed` = #{speed,jdbcType=INTEGER},
+      `msg_type` = #{msgType,jdbcType=TINYINT},
+      `flash_state` = #{flashState,jdbcType=TINYINT},
+      `upload_time` = #{uploadTime,jdbcType=TIMESTAMP},
+      `acceleration` = #{acceleration,jdbcType=REAL},
+      `flag` = #{flag,jdbcType=TINYINT}
+    where `id` = #{id,jdbcType=INTEGER}
+      and `event_time` = #{eventTime,jdbcType=TIMESTAMP}
+  </update>
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (C) 2016 CK, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.cityWeatherBase.dao.CityWeatherBaseMapper">
+    <resultMap id="ExtBaseResultMap" type="com.tyj.dao.demo.cityWeatherBase.bo.CityWeatherBase">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="area_id" property="areaId" jdbcType="CHAR" />
+        <result column="area_name_en" property="areaNameEn" jdbcType="VARCHAR" />
+        <result column="area_name_cn" property="areaNameCn" jdbcType="VARCHAR" />
+        <result column="prov_name_en" property="provNameEn" jdbcType="VARCHAR" />
+        <result column="prov_name_cn" property="provNameCn" jdbcType="VARCHAR" />
+        <result column="nation_name_en" property="nationNameEn" jdbcType="VARCHAR" />
+        <result column="nation_name_cn" property="nationNameCn" jdbcType="VARCHAR" />
+        <result column="wea_id" property="weaId" jdbcType="INTEGER" />
+    </resultMap>
+    <select id="selectAllCity" resultMap="ExtBaseResultMap">
+        select
+        a.`id`, a.`area_id`, a.`area_name_en`, a.`area_name_cn`,
+        a.`prov_name_en`, a.`prov_name_cn`, a.`nation_name_en`, a.`nation_name_cn`, b.`wea_id`
+        from `tb_city_weather_base` a join `tb_city_weather_k780` b
+        on a.`area_id` = b.`area_id`
+    </select>
+</mapper>

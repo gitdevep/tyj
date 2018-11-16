@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.general.dao.UserTeamMapper">
+  <resultMap id="BaseResultMap" type="com.tyj.dao.demo.general.bo.UserTeam">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="team_id" property="teamId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `id`, `team_id`, `user_id`
+  </sql>
+  <insert id="insert" parameterType="com.tyj.dao.demo.general.bo.UserTeam" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+    insert into `tb_user_team` (`team_id`, `user_id`)
+    values (#{teamId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER})
+    ]]>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into `tb_user_team` (`team_id`, `user_id`)
+     values 
+    <foreach collection="list" item="item" index="index" separator=",">
+       (#{item.teamId,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.tyj.dao.demo.general.bo.UserTeam" useGeneratedKeys="true" keyProperty="id">
+    insert into `tb_user_team`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="teamId != null">
+        `team_id`,
+      </if>
+      <if test="userId != null">
+        `user_id`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="teamId != null">
+        #{teamId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `tb_user_team`
+    where `id` = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `tb_user_team`
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `tb_user_team`
+    where `id` = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from `tb_user_team`
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tyj.dao.demo.general.bo.UserTeam">
+    update `tb_user_team`
+    <set>
+      <if test="teamId != null">
+        `team_id` = #{teamId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        `user_id` = #{userId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tyj.dao.demo.general.bo.UserTeam">
+    update `tb_user_team`
+    set `team_id` = #{teamId,jdbcType=INTEGER},
+      `user_id` = #{userId,jdbcType=INTEGER}
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

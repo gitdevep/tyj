@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (C) 2016 CK, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.general.dao.CompositeDictionaryMapper">
+  <resultMap id="BaseResultMap" type="com.tyj.dao.demo.general.bo.CompositeDictionary">
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="dic_id" property="dicId" jdbcType="INTEGER" />
+    <result column="dic_name" property="dicName" jdbcType="VARCHAR" />
+    <result column="dic_type" property="dicType" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="dic_desc" property="dicDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `id`, `dic_id`, `dic_name`, `dic_type`, `status`, `dic_desc`
+  </sql>
+  <insert id="insert" parameterType="com.tyj.dao.demo.general.bo.CompositeDictionary" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+    insert into `td_composite_dictionary` (`dic_id`, `dic_name`, `dic_type`, 
+      `status`, `dic_desc`)
+    values (#{dicId,jdbcType=INTEGER}, #{dicName,jdbcType=VARCHAR}, #{dicType,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT}, #{dicDesc,jdbcType=VARCHAR})
+    ]]>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into `td_composite_dictionary` (`dic_id`, `dic_name`, `dic_type`, 
+      `status`, `dic_desc`)
+     values 
+    <foreach collection="list" item="item" index="index" separator=",">
+       (#{item.dicId,jdbcType=INTEGER}, #{item.dicName,jdbcType=VARCHAR}, #{item.dicType,jdbcType=INTEGER}, 
+        #{item.status,jdbcType=TINYINT}, #{item.dicDesc,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.tyj.dao.demo.general.bo.CompositeDictionary" useGeneratedKeys="true" keyProperty="id">
+    insert into `td_composite_dictionary`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dicId != null">
+        `dic_id`,
+      </if>
+      <if test="dicName != null">
+        `dic_name`,
+      </if>
+      <if test="dicType != null">
+        `dic_type`,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="dicDesc != null">
+        `dic_desc`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dicId != null">
+        #{dicId,jdbcType=INTEGER},
+      </if>
+      <if test="dicName != null">
+        #{dicName,jdbcType=VARCHAR},
+      </if>
+      <if test="dicType != null">
+        #{dicType,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="dicDesc != null">
+        #{dicDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from `td_composite_dictionary`
+    where `id` = #{id,jdbcType=BIGINT}
+  </delete>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `td_composite_dictionary`
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `td_composite_dictionary`
+    where `id` = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from `td_composite_dictionary`
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tyj.dao.demo.general.bo.CompositeDictionary">
+    update `td_composite_dictionary`
+    <set>
+      <if test="dicId != null">
+        `dic_id` = #{dicId,jdbcType=INTEGER},
+      </if>
+      <if test="dicName != null">
+        `dic_name` = #{dicName,jdbcType=VARCHAR},
+      </if>
+      <if test="dicType != null">
+        `dic_type` = #{dicType,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="dicDesc != null">
+        `dic_desc` = #{dicDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tyj.dao.demo.general.bo.CompositeDictionary">
+    update `td_composite_dictionary`
+    set `dic_id` = #{dicId,jdbcType=INTEGER},
+      `dic_name` = #{dicName,jdbcType=VARCHAR},
+      `dic_type` = #{dicType,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=TINYINT},
+      `dic_desc` = #{dicDesc,jdbcType=VARCHAR}
+    where `id` = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

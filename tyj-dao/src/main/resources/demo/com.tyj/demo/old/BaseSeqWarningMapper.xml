@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (C) 2016 CK, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.old.dao.SeqWarningMapper">
+  <resultMap id="BaseResultMap" type="com.tyj.dao.demo.old.bo.SeqWarning">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="headwayMonitoringWarning" property="headwayMonitoringWarning" jdbcType="INTEGER" />
+    <result column="urbanForwardCollisionWarning" property="urbanForwardCollisionWarning" jdbcType="INTEGER" />
+    <result column="forwardCollisionWarning" property="forwardCollisionWarning" jdbcType="INTEGER" />
+    <result column="overSpeedWarning" property="overSpeedWarning" jdbcType="INTEGER" />
+    <result column="leftLaneDepartureWarning" property="leftLaneDepartureWarning" jdbcType="INTEGER" />
+    <result column="rightLaneDepartureWarning" property="rightLaneDepartureWarning" jdbcType="INTEGER" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `id`, `headwayMonitoringWarning`, `urbanForwardCollisionWarning`, `forwardCollisionWarning`, `overSpeedWarning`, `leftLaneDepartureWarning`, 
+    `rightLaneDepartureWarning`, `description`
+  </sql>
+  <insert id="insert" parameterType="com.tyj.dao.demo.old.bo.SeqWarning" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+    insert into `seq_warning` (`headwayMonitoringWarning`, `urbanForwardCollisionWarning`, 
+      `forwardCollisionWarning`, `overSpeedWarning`, 
+      `leftLaneDepartureWarning`, `rightLaneDepartureWarning`, 
+      `description`)
+    values (#{headwayMonitoringWarning,jdbcType=INTEGER}, #{urbanForwardCollisionWarning,jdbcType=INTEGER}, 
+      #{forwardCollisionWarning,jdbcType=INTEGER}, #{overSpeedWarning,jdbcType=INTEGER}, 
+      #{leftLaneDepartureWarning,jdbcType=INTEGER}, #{rightLaneDepartureWarning,jdbcType=INTEGER}, 
+      #{description,jdbcType=VARCHAR})
+    ]]>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into `seq_warning` (`headwayMonitoringWarning`, `urbanForwardCollisionWarning`, 
+      `forwardCollisionWarning`, `overSpeedWarning`, 
+      `leftLaneDepartureWarning`, `rightLaneDepartureWarning`, 
+      `description`)
+     values 
+    <foreach collection="list" item="item" index="index" separator=",">
+       (#{item.headwayMonitoringWarning,jdbcType=INTEGER}, #{item.urbanForwardCollisionWarning,jdbcType=INTEGER}, 
+        #{item.forwardCollisionWarning,jdbcType=INTEGER}, #{item.overSpeedWarning,jdbcType=INTEGER}, 
+        #{item.leftLaneDepartureWarning,jdbcType=INTEGER}, #{item.rightLaneDepartureWarning,jdbcType=INTEGER}, 
+        #{item.description,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.tyj.dao.demo.old.bo.SeqWarning" useGeneratedKeys="true" keyProperty="id">
+    insert into `seq_warning`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="headwayMonitoringWarning != null">
+        `headwayMonitoringWarning`,
+      </if>
+      <if test="urbanForwardCollisionWarning != null">
+        `urbanForwardCollisionWarning`,
+      </if>
+      <if test="forwardCollisionWarning != null">
+        `forwardCollisionWarning`,
+      </if>
+      <if test="overSpeedWarning != null">
+        `overSpeedWarning`,
+      </if>
+      <if test="leftLaneDepartureWarning != null">
+        `leftLaneDepartureWarning`,
+      </if>
+      <if test="rightLaneDepartureWarning != null">
+        `rightLaneDepartureWarning`,
+      </if>
+      <if test="description != null">
+        `description`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="headwayMonitoringWarning != null">
+        #{headwayMonitoringWarning,jdbcType=INTEGER},
+      </if>
+      <if test="urbanForwardCollisionWarning != null">
+        #{urbanForwardCollisionWarning,jdbcType=INTEGER},
+      </if>
+      <if test="forwardCollisionWarning != null">
+        #{forwardCollisionWarning,jdbcType=INTEGER},
+      </if>
+      <if test="overSpeedWarning != null">
+        #{overSpeedWarning,jdbcType=INTEGER},
+      </if>
+      <if test="leftLaneDepartureWarning != null">
+        #{leftLaneDepartureWarning,jdbcType=INTEGER},
+      </if>
+      <if test="rightLaneDepartureWarning != null">
+        #{rightLaneDepartureWarning,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `seq_warning`
+    where `id` = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `seq_warning`
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `seq_warning`
+    where `id` = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from `seq_warning`
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tyj.dao.demo.old.bo.SeqWarning">
+    update `seq_warning`
+    <set>
+      <if test="headwayMonitoringWarning != null">
+        `headwayMonitoringWarning` = #{headwayMonitoringWarning,jdbcType=INTEGER},
+      </if>
+      <if test="urbanForwardCollisionWarning != null">
+        `urbanForwardCollisionWarning` = #{urbanForwardCollisionWarning,jdbcType=INTEGER},
+      </if>
+      <if test="forwardCollisionWarning != null">
+        `forwardCollisionWarning` = #{forwardCollisionWarning,jdbcType=INTEGER},
+      </if>
+      <if test="overSpeedWarning != null">
+        `overSpeedWarning` = #{overSpeedWarning,jdbcType=INTEGER},
+      </if>
+      <if test="leftLaneDepartureWarning != null">
+        `leftLaneDepartureWarning` = #{leftLaneDepartureWarning,jdbcType=INTEGER},
+      </if>
+      <if test="rightLaneDepartureWarning != null">
+        `rightLaneDepartureWarning` = #{rightLaneDepartureWarning,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        `description` = #{description,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tyj.dao.demo.old.bo.SeqWarning">
+    update `seq_warning`
+    set `headwayMonitoringWarning` = #{headwayMonitoringWarning,jdbcType=INTEGER},
+      `urbanForwardCollisionWarning` = #{urbanForwardCollisionWarning,jdbcType=INTEGER},
+      `forwardCollisionWarning` = #{forwardCollisionWarning,jdbcType=INTEGER},
+      `overSpeedWarning` = #{overSpeedWarning,jdbcType=INTEGER},
+      `leftLaneDepartureWarning` = #{leftLaneDepartureWarning,jdbcType=INTEGER},
+      `rightLaneDepartureWarning` = #{rightLaneDepartureWarning,jdbcType=INTEGER},
+      `description` = #{description,jdbcType=VARCHAR}
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (C) 2015 CK, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.general.dao.DeviceInfoMapper">
+    <select id="findPageDeviceInfo" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `device_info`
+        <where>
+            <if test="list != null and list.size() > 0">
+                and `device_id` IN
+                <foreach item="item" collection="list" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="keyword != null and keyword != ''">
+                and (`name` like CONCAT('%', #{keyword}, '%')
+                or `plate_no` like CONCAT('%', #{keyword}, '%')
+                or `weixin_account` like CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
+    </select>
+    <select id="findPageTeamMember" resultMap="BaseResultMap">
+        SELECT
+        a.`id`, a.`name`, a.`age`, a.`driving_license`, a.`identity_no`, a.`telephone`, a.`plate_no`, a.`car_type`,
+        a.`phone_of_device`, a.`device_id`, a.`weixin_account`, a.`create_time`, a.`recorder_id`,
+        a.`outofdate_time`, a.`activate_times`
+        FROM
+        `device_info` a
+        <if test="teamId != null">
+            LEFT JOIN `tb_team_device` b
+            ON a.`id` = b.`device_id` and b.`team_id` = #{teamId}
+            where b.`team_id` IS
+            <if test="no != null">
+                NOT
+            </if>
+            NULL
+        </if>
+    </select>
+    <select id="findPageCars" resultMap="BaseResultMap">
+        SELECT
+        a.`id`, a.`name`, a.`age`, a.`driving_license`, a.`identity_no`, a.`telephone`, a.`plate_no`, a.`car_type`,
+        a.`phone_of_device`, a.`device_id`, a.`weixin_account`, a.`create_time`, a.`recorder_id`,
+        a.`outofdate_time`, a.`activate_times`
+        FROM
+        `device_info` a
+        <if test="userId != null">
+            LEFT JOIN `tb_user_device` b
+            ON a.`id` = b.`device_id` and b.`user_id` = #{userId}
+            where b.`user_id` IS
+            <if test="no != null">
+                NOT
+            </if>
+            NULL
+        </if>
+    </select>
+
+    <select id="findAllCars" resultMap="BaseResultMap">
+        SELECT
+        a.`id`, a.`name`, a.`age`, a.`driving_license`, a.`identity_no`, a.`telephone`, a.`plate_no`, a.`car_type`,
+        a.`phone_of_device`, a.`device_id`, a.`weixin_account`, a.`create_time`, a.`recorder_id`,
+        a.`outofdate_time`, a.`activate_times`
+        FROM
+        `device_info` a
+        JOIN `tb_user_device` b
+        ON a.`id` = b.`device_id`
+        JOIN `tb_user` c
+        ON c.`id` = b.`user_id`
+        where c.`id` = #{userId}
+    </select>
+
+    <update id="truncate">
+        TRUNCATE TABLE `device_info`
+    </update>
+</mapper>

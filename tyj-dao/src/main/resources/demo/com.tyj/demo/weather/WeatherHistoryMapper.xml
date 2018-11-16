@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (C) 2016 CK, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.weather.dao.WeatherHistoryMapper">
+    <select id="findByParams" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `weather_history`
+        where `history_time` &gt;= #{startDate} and `history_time` &lt; #{endDate}
+        and `area_id`  = #{startDate}
+    </select>
+    <select id="findByTimeAndAreaId" resultType="com.tyj.dao.demo.weather.bo.WeatherHistory">
+        select
+        <include refid="Base_Column_List" />
+        from `weather_history`
+        where `history_time` = #{time} and `area_id`  = #{areaId}
+    </select>
+</mapper>

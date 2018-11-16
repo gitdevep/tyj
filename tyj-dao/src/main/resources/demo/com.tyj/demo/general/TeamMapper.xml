@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.general.dao.TeamMapper">
+    <resultMap id="ExtBaseResultMap" type="com.tyj.dao.demo.general.bo.Team">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="team_name" property="teamName" jdbcType="VARCHAR" />
+        <result column="plate_no" property="plateNo" jdbcType="VARCHAR" />
+    </resultMap>
+    <select id="findPageTeam" resultMap="ExtBaseResultMap">
+        select
+            a.`id`,
+            a.`team_name`,
+            GROUP_CONCAT(c.`plate_no`) plate_no
+        from `tb_team` a
+        left join `tb_team_device` b
+        on a.`id` = b.`team_id`
+        left join `device_info` c
+        on c.`id` = b.`device_id`
+        <where>
+            <if test="teamName != null and teamName != ''">
+                AND a.`team_name` like CONCAT('%', #{teamName}, '%')
+            </if>
+        </where>
+        GROUP BY a.id
+    </select>
+</mapper>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (C) 2015 CK, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.jhpt.deviceGpsInfos.dao.DeviceGpsInfosJhptMapper">
+    <select id="findByDeviceIdAndTime" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from `device_gps_infos`
+        where `event_time` BETWEEN #{startDate} and #{endDate}
+    </select>
+</mapper>

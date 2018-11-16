@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (C) 2016 CK, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.general.dao.TeamRouteMapper">
+  <resultMap id="BaseResultMap" type="com.tyj.dao.demo.general.bo.TeamRoute">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="route_id" property="routeId" jdbcType="INTEGER" />
+    <result column="team_id" property="teamId" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `id`, `route_id`, `team_id`
+  </sql>
+  <insert id="insert" parameterType="com.tyj.dao.demo.general.bo.TeamRoute" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+    insert into `tb_team_route` (`route_id`, `team_id`)
+    values (#{routeId,jdbcType=INTEGER}, #{teamId,jdbcType=INTEGER})
+    ]]>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into `tb_team_route` (`route_id`, `team_id`)
+     values 
+    <foreach collection="list" item="item" index="index" separator=",">
+       (#{item.routeId,jdbcType=INTEGER}, #{item.teamId,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.tyj.dao.demo.general.bo.TeamRoute" useGeneratedKeys="true" keyProperty="id">
+    insert into `tb_team_route`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="routeId != null">
+        `route_id`,
+      </if>
+      <if test="teamId != null">
+        `team_id`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="routeId != null">
+        #{routeId,jdbcType=INTEGER},
+      </if>
+      <if test="teamId != null">
+        #{teamId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `tb_team_route`
+    where `id` = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `tb_team_route`
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `tb_team_route`
+    where `id` = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from `tb_team_route`
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tyj.dao.demo.general.bo.TeamRoute">
+    update `tb_team_route`
+    <set>
+      <if test="routeId != null">
+        `route_id` = #{routeId,jdbcType=INTEGER},
+      </if>
+      <if test="teamId != null">
+        `team_id` = #{teamId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tyj.dao.demo.general.bo.TeamRoute">
+    update `tb_team_route`
+    set `route_id` = #{routeId,jdbcType=INTEGER},
+      `team_id` = #{teamId,jdbcType=INTEGER}
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

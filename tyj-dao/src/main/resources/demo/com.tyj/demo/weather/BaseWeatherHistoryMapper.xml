@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.weather.dao.WeatherHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.tyj.dao.demo.weather.bo.WeatherHistory">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="json" property="json" jdbcType="LONGVARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="CHAR" />
+    <result column="history_time" property="historyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `id`, `json`, `area_id`, `history_time`
+  </sql>
+  <insert id="insert" parameterType="com.tyj.dao.demo.weather.bo.WeatherHistory" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+    insert into `weather_history` (`json`, `area_id`, `history_time`
+      )
+    values (#{json,jdbcType=LONGVARCHAR}, #{areaId,jdbcType=CHAR}, #{historyTime,jdbcType=TIMESTAMP}
+      )
+    ]]>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into `weather_history` (`json`, `area_id`, `history_time`
+      )
+     values 
+    <foreach collection="list" item="item" index="index" separator=",">
+        <![CDATA[
+       (#{item.json,jdbcType=LONGVARCHAR}, #{item.areaId,jdbcType=CHAR}, #{item.historyTime,jdbcType=TIMESTAMP}
+        )
+        ]]>
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.tyj.dao.demo.weather.bo.WeatherHistory" useGeneratedKeys="true" keyProperty="id">
+    insert into `weather_history`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="json != null">
+        `json`,
+      </if>
+      <if test="areaId != null">
+        `area_id`,
+      </if>
+      <if test="historyTime != null">
+        `history_time`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="json != null">
+        #{json,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="areaId != null">
+        #{areaId,jdbcType=CHAR},
+      </if>
+      <if test="historyTime != null">
+        #{historyTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `weather_history`
+    where `id` = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `weather_history`
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `weather_history`
+    where `id` = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from `weather_history`
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tyj.dao.demo.weather.bo.WeatherHistory">
+    update `weather_history`
+    <set>
+      <if test="json != null">
+        `json` = #{json,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="areaId != null">
+        `area_id` = #{areaId,jdbcType=CHAR},
+      </if>
+      <if test="historyTime != null">
+        `history_time` = #{historyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tyj.dao.demo.weather.bo.WeatherHistory">
+    update `weather_history`
+    set `json` = #{json,jdbcType=LONGVARCHAR},
+      `area_id` = #{areaId,jdbcType=CHAR},
+      `history_time` = #{historyTime,jdbcType=TIMESTAMP}
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

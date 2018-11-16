@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (C) 2016 CK, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.cityWeatherBase.dao.CityWeatherBaseMapper">
+  <resultMap id="BaseResultMap" type="com.tyj.dao.demo.cityWeatherBase.bo.CityWeatherBase">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="area_id" property="areaId" jdbcType="CHAR" />
+    <result column="area_name_en" property="areaNameEn" jdbcType="VARCHAR" />
+    <result column="area_name_cn" property="areaNameCn" jdbcType="VARCHAR" />
+    <result column="prov_name_en" property="provNameEn" jdbcType="VARCHAR" />
+    <result column="prov_name_cn" property="provNameCn" jdbcType="VARCHAR" />
+    <result column="nation_name_en" property="nationNameEn" jdbcType="VARCHAR" />
+    <result column="nation_name_cn" property="nationNameCn" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `id`, `area_id`, `area_name_en`, `area_name_cn`, `prov_name_en`, `prov_name_cn`, `nation_name_en`, `nation_name_cn`
+  </sql>
+  <insert id="insert" parameterType="com.tyj.dao.demo.cityWeatherBase.bo.CityWeatherBase" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+    insert into `tb_city_weather_base` (`area_id`, `area_name_en`, `area_name_cn`,
+      `prov_name_en`, `prov_name_cn`, `nation_name_en`, 
+      `nation_name_cn`)
+    values (#{areaId,jdbcType=CHAR}, #{areaNameEn,jdbcType=VARCHAR}, #{areaNameCn,jdbcType=VARCHAR}, 
+      #{provNameEn,jdbcType=VARCHAR}, #{provNameCn,jdbcType=VARCHAR}, #{nationNameEn,jdbcType=VARCHAR}, 
+      #{nationNameCn,jdbcType=VARCHAR})
+    ]]>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into `tb_city_weather_base` (`area_id`, `area_name_en`, `area_name_cn`,
+      `prov_name_en`, `prov_name_cn`, `nation_name_en`, 
+      `nation_name_cn`)
+     values 
+    <foreach collection="list" item="item" index="index" separator=",">
+       (#{item.areaId,jdbcType=CHAR}, #{item.areaNameEn,jdbcType=VARCHAR}, #{item.areaNameCn,jdbcType=VARCHAR},
+        #{item.provNameEn,jdbcType=VARCHAR}, #{item.provNameCn,jdbcType=VARCHAR}, #{item.nationNameEn,jdbcType=VARCHAR}, 
+        #{item.nationNameCn,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.tyj.dao.demo.cityWeatherBase.bo.CityWeatherBase" useGeneratedKeys="true" keyProperty="id">
+    insert into `tb_city_weather_base`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="areaId != null">
+        `area_id`,
+      </if>
+      <if test="areaNameEn != null">
+        `area_name_en`,
+      </if>
+      <if test="areaNameCn != null">
+        `area_name_cn`,
+      </if>
+      <if test="provNameEn != null">
+        `prov_name_en`,
+      </if>
+      <if test="provNameCn != null">
+        `prov_name_cn`,
+      </if>
+      <if test="nationNameEn != null">
+        `nation_name_en`,
+      </if>
+      <if test="nationNameCn != null">
+        `nation_name_cn`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="areaId != null">
+        #{areaId,jdbcType=CHAR},
+      </if>
+      <if test="areaNameEn != null">
+        #{areaNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameCn != null">
+        #{areaNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="provNameEn != null">
+        #{provNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="provNameCn != null">
+        #{provNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="nationNameEn != null">
+        #{nationNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="nationNameCn != null">
+        #{nationNameCn,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `tb_city_weather_base`
+    where `id` = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `tb_city_weather_base`
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `tb_city_weather_base`
+    where `id` = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from `tb_city_weather_base`
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tyj.dao.demo.cityWeatherBase.bo.CityWeatherBase">
+    update `tb_city_weather_base`
+    <set>
+      <if test="areaId != null">
+        `area_id` = #{areaId,jdbcType=CHAR},
+      </if>
+      <if test="areaNameEn != null">
+        `area_name_en` = #{areaNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="areaNameCn != null">
+        `area_name_cn` = #{areaNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="provNameEn != null">
+        `prov_name_en` = #{provNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="provNameCn != null">
+        `prov_name_cn` = #{provNameCn,jdbcType=VARCHAR},
+      </if>
+      <if test="nationNameEn != null">
+        `nation_name_en` = #{nationNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="nationNameCn != null">
+        `nation_name_cn` = #{nationNameCn,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tyj.dao.demo.cityWeatherBase.bo.CityWeatherBase">
+    update `tb_city_weather_base`
+    set `area_id` = #{areaId,jdbcType=CHAR},
+      `area_name_en` = #{areaNameEn,jdbcType=VARCHAR},
+      `area_name_cn` = #{areaNameCn,jdbcType=VARCHAR},
+      `prov_name_en` = #{provNameEn,jdbcType=VARCHAR},
+      `prov_name_cn` = #{provNameCn,jdbcType=VARCHAR},
+      `nation_name_en` = #{nationNameEn,jdbcType=VARCHAR},
+      `nation_name_cn` = #{nationNameCn,jdbcType=VARCHAR}
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

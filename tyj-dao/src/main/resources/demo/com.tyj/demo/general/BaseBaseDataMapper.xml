@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.general.dao.BaseDataMapper">
+  <resultMap id="BaseResultMap" type="com.tyj.dao.demo.general.bo.BaseData">
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="device_id" property="deviceId" jdbcType="INTEGER" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="driver_time" property="driverTime" jdbcType="DOUBLE" />
+    <result column="km" property="km" jdbcType="DOUBLE" />
+    <result column="oil" property="oil" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `id`, `device_id`, `start_time`, `end_time`, `driver_time`, `km`, `oil`
+  </sql>
+  <insert id="insert" parameterType="com.tyj.dao.demo.general.bo.BaseData" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+    insert into `tb_base_data` (`device_id`, `start_time`, `end_time`, 
+      `driver_time`, `km`, `oil`)
+    values (#{deviceId,jdbcType=INTEGER}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
+      #{driverTime,jdbcType=DOUBLE}, #{km,jdbcType=DOUBLE}, #{oil,jdbcType=DOUBLE})
+    ]]>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into `tb_base_data` (`device_id`, `start_time`, `end_time`, 
+      `driver_time`, `km`, `oil`
+      )
+     values 
+    <foreach collection="list" item="item" index="index" separator=",">
+       (#{item.deviceId,jdbcType=INTEGER}, #{item.startTime,jdbcType=TIMESTAMP}, #{item.endTime,jdbcType=TIMESTAMP}, 
+        #{item.driverTime,jdbcType=DOUBLE}, #{item.km,jdbcType=DOUBLE}, #{item.oil,jdbcType=DOUBLE}
+        )
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.tyj.dao.demo.general.bo.BaseData" useGeneratedKeys="true" keyProperty="id">
+    insert into `tb_base_data`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="deviceId != null">
+        `device_id`,
+      </if>
+      <if test="startTime != null">
+        `start_time`,
+      </if>
+      <if test="endTime != null">
+        `end_time`,
+      </if>
+      <if test="driverTime != null">
+        `driver_time`,
+      </if>
+      <if test="km != null">
+        `km`,
+      </if>
+      <if test="oil != null">
+        `oil`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="deviceId != null">
+        #{deviceId,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="driverTime != null">
+        #{driverTime,jdbcType=DOUBLE},
+      </if>
+      <if test="km != null">
+        #{km,jdbcType=DOUBLE},
+      </if>
+      <if test="oil != null">
+        #{oil,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from `tb_base_data`
+    where `id` = #{id,jdbcType=BIGINT}
+  </delete>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `tb_base_data`
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `tb_base_data`
+    where `id` = #{id,jdbcType=BIGINT}
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from `tb_base_data`
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tyj.dao.demo.general.bo.BaseData">
+    update `tb_base_data`
+    <set>
+      <if test="deviceId != null">
+        `device_id` = #{deviceId,jdbcType=INTEGER},
+      </if>
+      <if test="startTime != null">
+        `start_time` = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null">
+        `end_time` = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="driverTime != null">
+        `driver_time` = #{driverTime,jdbcType=DOUBLE},
+      </if>
+      <if test="km != null">
+        `km` = #{km,jdbcType=DOUBLE},
+      </if>
+      <if test="oil != null">
+        `oil` = #{oil,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tyj.dao.demo.general.bo.BaseData">
+    update `tb_base_data`
+    set `device_id` = #{deviceId,jdbcType=INTEGER},
+      `start_time` = #{startTime,jdbcType=TIMESTAMP},
+      `end_time` = #{endTime,jdbcType=TIMESTAMP},
+      `driver_time` = #{driverTime,jdbcType=DOUBLE},
+      `km` = #{km,jdbcType=DOUBLE},
+      `oil` = #{oil,jdbcType=DOUBLE}
+    where `id` = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

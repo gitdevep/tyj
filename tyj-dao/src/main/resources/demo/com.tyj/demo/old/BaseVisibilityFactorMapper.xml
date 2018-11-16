@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (C) 2016 CK, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.old.dao.VisibilityFactorMapper">
+  <resultMap id="BaseResultMap" type="com.tyj.dao.demo.old.bo.VisibilityFactor">
+    <id column="range_start" property="rangeStart" jdbcType="TIMESTAMP" />
+    <id column="range_end" property="rangeEnd" jdbcType="TIMESTAMP" />
+    <result column="headwayMonitoringWarning" property="headwayMonitoringWarning" jdbcType="INTEGER" />
+    <result column="urbanForwardCollisionWarning" property="urbanForwardCollisionWarning" jdbcType="INTEGER" />
+    <result column="forwardCollisionWarning" property="forwardCollisionWarning" jdbcType="INTEGER" />
+    <result column="overSpeedWarning" property="overSpeedWarning" jdbcType="INTEGER" />
+    <result column="leftLaneDepartureWarning" property="leftLaneDepartureWarning" jdbcType="INTEGER" />
+    <result column="rightLaneDepartureWarning" property="rightLaneDepartureWarning" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `range_start`, `range_end`, `headwayMonitoringWarning`, `urbanForwardCollisionWarning`, `forwardCollisionWarning`, `overSpeedWarning`, 
+    `leftLaneDepartureWarning`, `rightLaneDepartureWarning`
+  </sql>
+  <insert id="insert" parameterType="com.tyj.dao.demo.old.bo.VisibilityFactor" useGeneratedKeys="true" keyProperty="hashmap">
+    <![CDATA[
+    insert into `visibility_factor` (`range_start`, `range_end`, `headwayMonitoringWarning`, 
+      `urbanForwardCollisionWarning`, `forwardCollisionWarning`, 
+      `overSpeedWarning`, `leftLaneDepartureWarning`, 
+      `rightLaneDepartureWarning`)
+    values (#{rangeStart,jdbcType=TIMESTAMP}, #{rangeEnd,jdbcType=TIMESTAMP}, #{headwayMonitoringWarning,jdbcType=INTEGER}, 
+      #{urbanForwardCollisionWarning,jdbcType=INTEGER}, #{forwardCollisionWarning,jdbcType=INTEGER}, 
+      #{overSpeedWarning,jdbcType=INTEGER}, #{leftLaneDepartureWarning,jdbcType=INTEGER}, 
+      #{rightLaneDepartureWarning,jdbcType=INTEGER})
+    ]]>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into `visibility_factor` (`range_start`, `range_end`, `headwayMonitoringWarning`, 
+      `urbanForwardCollisionWarning`, `forwardCollisionWarning`, 
+      `overSpeedWarning`, `leftLaneDepartureWarning`, 
+      `rightLaneDepartureWarning`)
+     values 
+    <foreach collection="list" item="item" index="index" separator=",">
+       (#{item.rangeStart,jdbcType=TIMESTAMP}, #{item.rangeEnd,jdbcType=TIMESTAMP}, #{item.headwayMonitoringWarning,jdbcType=INTEGER}, 
+        #{item.urbanForwardCollisionWarning,jdbcType=INTEGER}, #{item.forwardCollisionWarning,jdbcType=INTEGER}, 
+        #{item.overSpeedWarning,jdbcType=INTEGER}, #{item.leftLaneDepartureWarning,jdbcType=INTEGER}, 
+        #{item.rightLaneDepartureWarning,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.tyj.dao.demo.old.bo.VisibilityFactor" useGeneratedKeys="true" keyProperty="hashmap">
+    insert into `visibility_factor`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="rangeStart != null">
+        `range_start`,
+      </if>
+      <if test="rangeEnd != null">
+        `range_end`,
+      </if>
+      <if test="headwayMonitoringWarning != null">
+        `headwayMonitoringWarning`,
+      </if>
+      <if test="urbanForwardCollisionWarning != null">
+        `urbanForwardCollisionWarning`,
+      </if>
+      <if test="forwardCollisionWarning != null">
+        `forwardCollisionWarning`,
+      </if>
+      <if test="overSpeedWarning != null">
+        `overSpeedWarning`,
+      </if>
+      <if test="leftLaneDepartureWarning != null">
+        `leftLaneDepartureWarning`,
+      </if>
+      <if test="rightLaneDepartureWarning != null">
+        `rightLaneDepartureWarning`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="rangeStart != null">
+        #{rangeStart,jdbcType=TIMESTAMP},
+      </if>
+      <if test="rangeEnd != null">
+        #{rangeEnd,jdbcType=TIMESTAMP},
+      </if>
+      <if test="headwayMonitoringWarning != null">
+        #{headwayMonitoringWarning,jdbcType=INTEGER},
+      </if>
+      <if test="urbanForwardCollisionWarning != null">
+        #{urbanForwardCollisionWarning,jdbcType=INTEGER},
+      </if>
+      <if test="forwardCollisionWarning != null">
+        #{forwardCollisionWarning,jdbcType=INTEGER},
+      </if>
+      <if test="overSpeedWarning != null">
+        #{overSpeedWarning,jdbcType=INTEGER},
+      </if>
+      <if test="leftLaneDepartureWarning != null">
+        #{leftLaneDepartureWarning,jdbcType=INTEGER},
+      </if>
+      <if test="rightLaneDepartureWarning != null">
+        #{rightLaneDepartureWarning,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="hashmap">
+    delete from `visibility_factor`
+    where `range_start` = #{rangeStart,jdbcType=TIMESTAMP}
+      and `range_end` = #{rangeEnd,jdbcType=TIMESTAMP}
+  </delete>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `visibility_factor`
+  </select>
+  <select id="selectByPrimaryKey" parameterType="hashmap" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `visibility_factor`
+    where `range_start` = #{rangeStart,jdbcType=TIMESTAMP}
+      and `range_end` = #{rangeEnd,jdbcType=TIMESTAMP}
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from `visibility_factor`
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tyj.dao.demo.old.bo.VisibilityFactor">
+    update `visibility_factor`
+    <set>
+      <if test="headwayMonitoringWarning != null">
+        `headwayMonitoringWarning` = #{headwayMonitoringWarning,jdbcType=INTEGER},
+      </if>
+      <if test="urbanForwardCollisionWarning != null">
+        `urbanForwardCollisionWarning` = #{urbanForwardCollisionWarning,jdbcType=INTEGER},
+      </if>
+      <if test="forwardCollisionWarning != null">
+        `forwardCollisionWarning` = #{forwardCollisionWarning,jdbcType=INTEGER},
+      </if>
+      <if test="overSpeedWarning != null">
+        `overSpeedWarning` = #{overSpeedWarning,jdbcType=INTEGER},
+      </if>
+      <if test="leftLaneDepartureWarning != null">
+        `leftLaneDepartureWarning` = #{leftLaneDepartureWarning,jdbcType=INTEGER},
+      </if>
+      <if test="rightLaneDepartureWarning != null">
+        `rightLaneDepartureWarning` = #{rightLaneDepartureWarning,jdbcType=INTEGER},
+      </if>
+    </set>
+    where `range_start` = #{rangeStart,jdbcType=TIMESTAMP}
+      and `range_end` = #{rangeEnd,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tyj.dao.demo.old.bo.VisibilityFactor">
+    update `visibility_factor`
+    set `headwayMonitoringWarning` = #{headwayMonitoringWarning,jdbcType=INTEGER},
+      `urbanForwardCollisionWarning` = #{urbanForwardCollisionWarning,jdbcType=INTEGER},
+      `forwardCollisionWarning` = #{forwardCollisionWarning,jdbcType=INTEGER},
+      `overSpeedWarning` = #{overSpeedWarning,jdbcType=INTEGER},
+      `leftLaneDepartureWarning` = #{leftLaneDepartureWarning,jdbcType=INTEGER},
+      `rightLaneDepartureWarning` = #{rightLaneDepartureWarning,jdbcType=INTEGER}
+    where `range_start` = #{rangeStart,jdbcType=TIMESTAMP}
+      and `range_end` = #{rangeEnd,jdbcType=TIMESTAMP}
+  </update>
+</mapper>

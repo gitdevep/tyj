@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  ~ Copyright (C) 2016 CK, Inc. All Rights Reserved.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.general.dao.TeamMapper">
+  <resultMap id="BaseResultMap" type="com.tyj.dao.demo.general.bo.Team">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="team_name" property="teamName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `id`, `team_name`
+  </sql>
+  <insert id="insert" parameterType="com.tyj.dao.demo.general.bo.Team" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+    insert into `tb_team` (`team_name`)
+    values (#{teamName,jdbcType=VARCHAR})
+    ]]>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into `tb_team` (`team_name`)
+     values 
+    <foreach collection="list" item="item" index="index" separator=",">
+       (#{item.teamName,jdbcType=VARCHAR})
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.tyj.dao.demo.general.bo.Team" useGeneratedKeys="true" keyProperty="id">
+    insert into `tb_team`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="teamName != null">
+        `team_name`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="teamName != null">
+        #{teamName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `tb_team`
+    where `id` = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `tb_team`
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `tb_team`
+    where `id` = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from `tb_team`
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tyj.dao.demo.general.bo.Team">
+    update `tb_team`
+    <set>
+      <if test="teamName != null">
+        `team_name` = #{teamName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tyj.dao.demo.general.bo.Team">
+    update `tb_team`
+    set `team_name` = #{teamName,jdbcType=VARCHAR}
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

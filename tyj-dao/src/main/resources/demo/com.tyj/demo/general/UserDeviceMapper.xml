@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.general.dao.UserDeviceMapper">
+    <delete id="delMember">
+        delete from `tb_user_device`
+        <where>
+            <if test="userId != null">
+                AND `user_id` = #{userId}
+            </if>
+            <if test="members != null">
+                AND `device_id` IN
+                <foreach item="item" collection="members" open="(" close=")" separator=",">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+    </delete>
+    <select id="findDeviceIdsByUserId" resultType="java.lang.Integer">
+        select b.`device_id` from `tb_user_device` a join `device_info` b on a.device_id = b.id where a.`user_id` = #{userId}
+    </select>
+</mapper>

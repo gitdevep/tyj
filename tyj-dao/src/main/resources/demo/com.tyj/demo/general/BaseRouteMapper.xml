@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tyj.dao.demo.general.dao.RouteMapper">
+  <resultMap id="BaseResultMap" type="com.tyj.dao.demo.general.bo.Route">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="route_name" property="routeName" jdbcType="VARCHAR" />
+    <result column="km" property="km" jdbcType="DOUBLE" />
+    <result column="oil_cost" property="oilCost" jdbcType="DOUBLE" />
+    <result column="start_lng" property="startLng" jdbcType="DOUBLE" />
+    <result column="start_lat" property="startLat" jdbcType="DOUBLE" />
+    <result column="end_lng" property="endLng" jdbcType="DOUBLE" />
+    <result column="end_lat" property="endLat" jdbcType="DOUBLE" />
+    <result column="start_name" property="startName" jdbcType="VARCHAR" />
+    <result column="end_name" property="endName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    `id`, `route_name`, `km`, `oil_cost`, `start_lng`, `start_lat`, `end_lng`, `end_lat`, `start_name`, `end_name`
+  </sql>
+  <insert id="insert" parameterType="com.tyj.dao.demo.general.bo.Route" useGeneratedKeys="true" keyProperty="id">
+    <![CDATA[
+    insert into `tb_route` (`route_name`, `km`, `oil_cost`, 
+      `start_lng`, `start_lat`, `end_lng`, 
+      `end_lat`, `start_name`, `end_name`
+      )
+    values (#{routeName,jdbcType=VARCHAR}, #{km,jdbcType=DOUBLE}, #{oilCost,jdbcType=DOUBLE}, 
+      #{startLng,jdbcType=DOUBLE}, #{startLat,jdbcType=DOUBLE}, #{endLng,jdbcType=DOUBLE}, 
+      #{endLat,jdbcType=DOUBLE}, #{startName,jdbcType=VARCHAR}, #{endName,jdbcType=VARCHAR}
+      )
+    ]]>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into `tb_route` (`route_name`, `km`, `oil_cost`, 
+      `start_lng`, `start_lat`, `end_lng`, 
+      `end_lat`, `start_name`, `end_name`
+      )
+     values 
+    <foreach collection="list" item="item" index="index" separator=",">
+       (#{item.routeName,jdbcType=VARCHAR}, #{item.km,jdbcType=DOUBLE}, #{item.oilCost,jdbcType=DOUBLE}, 
+        #{item.startLng,jdbcType=DOUBLE}, #{item.startLat,jdbcType=DOUBLE}, #{item.endLng,jdbcType=DOUBLE}, 
+        #{item.endLat,jdbcType=DOUBLE}, #{item.startName,jdbcType=VARCHAR}, #{item.endName,jdbcType=VARCHAR}
+        )
+    </foreach>
+  </insert>
+  <insert id="insertSelective" parameterType="com.tyj.dao.demo.general.bo.Route" useGeneratedKeys="true" keyProperty="id">
+    insert into `tb_route`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="routeName != null">
+        `route_name`,
+      </if>
+      <if test="km != null">
+        `km`,
+      </if>
+      <if test="oilCost != null">
+        `oil_cost`,
+      </if>
+      <if test="startLng != null">
+        `start_lng`,
+      </if>
+      <if test="startLat != null">
+        `start_lat`,
+      </if>
+      <if test="endLng != null">
+        `end_lng`,
+      </if>
+      <if test="endLat != null">
+        `end_lat`,
+      </if>
+      <if test="startName != null">
+        `start_name`,
+      </if>
+      <if test="endName != null">
+        `end_name`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="routeName != null">
+        #{routeName,jdbcType=VARCHAR},
+      </if>
+      <if test="km != null">
+        #{km,jdbcType=DOUBLE},
+      </if>
+      <if test="oilCost != null">
+        #{oilCost,jdbcType=DOUBLE},
+      </if>
+      <if test="startLng != null">
+        #{startLng,jdbcType=DOUBLE},
+      </if>
+      <if test="startLat != null">
+        #{startLat,jdbcType=DOUBLE},
+      </if>
+      <if test="endLng != null">
+        #{endLng,jdbcType=DOUBLE},
+      </if>
+      <if test="endLat != null">
+        #{endLat,jdbcType=DOUBLE},
+      </if>
+      <if test="startName != null">
+        #{startName,jdbcType=VARCHAR},
+      </if>
+      <if test="endName != null">
+        #{endName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `tb_route`
+    where `id` = #{id,jdbcType=INTEGER}
+  </delete>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `tb_route`
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from `tb_route`
+    where `id` = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from `tb_route`
+  </select>
+  <update id="updateByPrimaryKeySelective" parameterType="com.tyj.dao.demo.general.bo.Route">
+    update `tb_route`
+    <set>
+      <if test="routeName != null">
+        `route_name` = #{routeName,jdbcType=VARCHAR},
+      </if>
+      <if test="km != null">
+        `km` = #{km,jdbcType=DOUBLE},
+      </if>
+      <if test="oilCost != null">
+        `oil_cost` = #{oilCost,jdbcType=DOUBLE},
+      </if>
+      <if test="startLng != null">
+        `start_lng` = #{startLng,jdbcType=DOUBLE},
+      </if>
+      <if test="startLat != null">
+        `start_lat` = #{startLat,jdbcType=DOUBLE},
+      </if>
+      <if test="endLng != null">
+        `end_lng` = #{endLng,jdbcType=DOUBLE},
+      </if>
+      <if test="endLat != null">
+        `end_lat` = #{endLat,jdbcType=DOUBLE},
+      </if>
+      <if test="startName != null">
+        `start_name` = #{startName,jdbcType=VARCHAR},
+      </if>
+      <if test="endName != null">
+        `end_name` = #{endName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.tyj.dao.demo.general.bo.Route">
+    update `tb_route`
+    set `route_name` = #{routeName,jdbcType=VARCHAR},
+      `km` = #{km,jdbcType=DOUBLE},
+      `oil_cost` = #{oilCost,jdbcType=DOUBLE},
+      `start_lng` = #{startLng,jdbcType=DOUBLE},
+      `start_lat` = #{startLat,jdbcType=DOUBLE},
+      `end_lng` = #{endLng,jdbcType=DOUBLE},
+      `end_lat` = #{endLat,jdbcType=DOUBLE},
+      `start_name` = #{startName,jdbcType=VARCHAR},
+      `end_name` = #{endName,jdbcType=VARCHAR}
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
