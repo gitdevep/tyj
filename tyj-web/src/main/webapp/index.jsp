@@ -4,45 +4,19 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>天盈健数据分析平台</title>
-    <link rel="stylesheet" type="text/css" href="css/frame/default.css"/>
-    <link rel="stylesheet" type="text/css" href="css/frame/frame.css"/>
-    <script type="text/javascript" src="js/frame/timer.js"></script>
-    <script type="text/javascript" src="js/frame/framebak.js"></script>
+    <title>天盈健数据分析平台—欢迎登陆</title>
+    <link rel="stylesheet" type="text/css" href="<%=basePath%>css/frame/ivi_login.css">
 </head>
-<body class="easyui-layout" style="overflow-y: hidden">
-    <div class="north" region="north" border="false">
-        <div class="northDiv1">&nbsp;<img src="images/resources/blocks.gif" align="absmiddle"/> 天盈健数据分析平台
-        </div>
-        <div class="northDiv2">
-            <div class="headLeft" id="systime"></div>
-            <div class="headRight">欢迎你，<span id="userNameShow"></span>&nbsp;<a href="#" id="loginOut">安全退出</a></div>
-        </div>
-    </div>
-    <div class="west" region="west" title="菜单" split="true">
-        <div id="nav" fit="true" border="false">
-            <ul id="tt" class="easyui-tree">
-            </ul>
-        </div>
-    </div>
-    <div class="center" region="center">
-        <div id="tabs" class="easyui-tabs" fit="true" border="false">
-        </div>
-    </div>
-    <div class="south" region="south" split="true">
-        <div class="footer">2016&copy;Copy rights reserve</div>
-    </div>
-    <div id="formLogin" method="post" style="width:300px;height:200px;" title="用户登录">
-        <table width="100%" style="line-height:50px;border:red 1px;">
-            <tr align="center">
-                <td class="text">用户名：</td>
-                <td align="left"><input id="username" name="username" type="text" class="easyui-validatebox" required="true" /></td>
-            </tr>
-            <tr align="center">
-                <td class="text">密码：</td>
-                <td align="left"><input id="password" name="password" type="password" class="easyui-validatebox" required="true"/></td>
-            </tr>
-        </table>
-    </div>
+<body style="background-color:#0014c8">
+<img src="images/logo_white.png" style="float:left;margin:40px 0 0 20px;" />
+<div class="line"></div>
+<div class="box">
+    <span class="msg">${param.message}</span>
+    <form name="form2" action="user/login" method="post" id="form2">
+        <input type="text" name="userName" placeholder="用户名">
+        <input type="password" name="userPassword" placeholder="密码">
+        <input type="submit" name="but5" id="but5" value="登录">
+    </form>
+</div>
 </body>
 </html>

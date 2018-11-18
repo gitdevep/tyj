@@ -23,11 +23,13 @@ import com.tyj.service.demo.general.impl.SystemConfig;
 import com.tyj.service.demo.general.UserDeviceService;
 import com.tyj.service.demo.general.UserService;
 import com.tyj.service.demo.general.UserTeamService;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -57,31 +59,37 @@ public class UserController extends AbstractController {
 
     @ResponseBody
     @RequestMapping(value = "/login")
-    public String login(@RequestParam("username") String username,
-                        @RequestParam("password") String password) {
-        Map<String, Object> m = new HashMap<String, Object>(2);
-        m.put("userName", username);
-        m.put("userPassword", password);
-        User user = userService.findUserByMap(m);
-        if (null != user) {
-            String url = SystemConfig.getStr("auth.url");
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("userId", user.getAuthId());
-            params.put("systemId", 3);
-            String json = HttpClientUtils.execute(params, url);
-            GeneralAuthWrapper generalAuthWrapper = JsonUtil.fromJson(json, GeneralAuthWrapper.class);
-            if (generalAuthWrapper.getStatus() != 0) {
-                return JsonResp.asEmpty().error(generalAuthWrapper.getStatusInfo()).toJson();
-            }
-            sessionProvider.setAttribute(AuthWrapper.SESSION_AUTH_WRAPPER_MESSAGE, generalAuthWrapper.getData());
-            sessionProvider.setAttribute(AuthWrapper.SESSION_USER_MESSAGE, user);
-            List l = generalAuthWrapper.getData().getMenuList();
-            if (l != null && !l.isEmpty()) {
-                return JsonResp.asList().addAll(l).toJson();
-            }
-            return JsonResp.asEmpty().error("没有菜单,请找管理员").toJson();
+    public ModelAndView login(@RequestParam Map<String, Object> param) {
+        ModelAndView mv;
+        User user = userService.findUserByMap(param);
+        if (null == user) {
+            mv = new ModelAndView("redirect:/");
+            mv.addObject("message", "用户名或密码错误");
+            return mv;
         }
-        return JsonResp.asEmpty().error("用户名或密码错误").toJson();
+        String url = SystemConfig.getStr("auth.url");
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userId", user.getAuthId());
+        params.put("systemId", 3);
+        String json = HttpClientUtils.execute(params, url);
+        GeneralAuthWrapper generalAuthWrapper = JsonUtil.fromJson(json, GeneralAuthWrapper.class);
+        if (generalAuthWrapper.getStatus() != 0) {
+            mv = new ModelAndView("redirect:/");
+            mv.addObject("message", generalAuthWrapper.getStatusInfo());
+            return mv;
+        }
+        sessionProvider.setAttribute(AuthWrapper.SESSION_USER_MESSAGE, user);
+        sessionProvider.setAttribute(AuthWrapper.SESSION_AUTH_WRAPPER_MESSAGE, generalAuthWrapper.getData());
+        List l = generalAuthWrapper.getData().getMenuList();
+        if (CollectionUtils.isEmpty(l)) {
+            mv = new ModelAndView("redirect:/");
+            mv.addObject("message", "没有菜单,请找管理员");
+            return mv;
+        }
+        mv = new ModelAndView("common/frame");
+        mv.addObject("message", JsonResp.asList().addAll(l).toJson());
+        mv.addObject("userNameShow", user.getName());
+        return mv;
     }
 
     @ResponseBody
@@ -217,5 +225,11 @@ public class UserController extends AbstractController {
         params.put("members", user.getMembers().split(","));
         userTeamService.delMember(params);
         return JsonResp.asEmpty().toJson();
+    }
+
+    @RequestMapping(value = "/loginOut")
+    public ModelAndView loginOut() {
+        sessionProvider.logout();
+        return new ModelAndView("redirect:/");
     }
 }
